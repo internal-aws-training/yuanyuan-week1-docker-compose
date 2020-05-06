@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+  web-ui:
+    container_name: web-ui
+    working_dir: /app
+    build:
+      context: ./web-ui
+      dockerfile: Dockerfile
+    volumes:
+      - ./web-ui:/app
+      - web-ui-modules:/app/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - web-api
+    networks:
+      - app_net
+
+  web-api:
+    image: node:14
+    container_name: web-api
+    working_dir: /app
+    volumes: 
+      - ./web-api:/app/
+      - web-api-modules:/app/node_modules
+    ports: 
+      - 4000:4000
+    depends_on:
+      - backend-api
+    networks:
+      - app_net 
+    command: npm run dev
+
+  backend-api:
+    image: gradle:5.5.1-jdk11
+    container_name: backend-api
+    working_dir: /app
+    volumes:
+      - ./backend-api:/app
+      - gradle-cache:/home/gradle/.gradle
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres-db
+    networks:
+      - app_net
+    command: ./gradlew clean bootRun
+
+  postgres-db:
+    image: postgres:11.4
+    container_name: postgres-db
+    restart: always
+    environment:  
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test
+    volumes:
+      - db-cache:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - app_net
+
+volumes:
+  web-ui-modules:
+  web-api-modules:
+  gradle-cache:
+  db-cache:
+
+networks:
+  app_net:

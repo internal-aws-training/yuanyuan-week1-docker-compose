@@ -1,0 +1,15 @@
+{
+  "name": "web-api",
+  "version": "1.0.0",
+  "description": "A bff",
+  "main": "index.js",
+  "dependencies": {
+    "node": "^14.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "npm install && node app.js"
+  },
+  "author": "yuanyuan.lin",
+  "license": "ISC"
+}
