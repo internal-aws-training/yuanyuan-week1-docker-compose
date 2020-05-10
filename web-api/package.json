@@ -8,7 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev": "npm install && node app.js"
+    "start": "node app.js"
   },
   "author": "yuanyuan.lin",
   "license": "ISC"

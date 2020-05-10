@@ -1,10 +1,9 @@
 const http = require('http');
 
-const hostname = '127.0.0.1';
-const port = 4000;
+const hostname = process.env.API_HOST || '0.0.0.0';
+const port = process.env.API_POST || 4000;
 
 const server = http.createServer((req, res) => {
-  console.log('req: ', req);
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
   res.end('Hello World');
