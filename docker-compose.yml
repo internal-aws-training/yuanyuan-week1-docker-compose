@@ -1,26 +1,20 @@
-version: "3.7"
+version: "3"
 
 services:
   web-ui:
     container_name: web-ui
-    working_dir: /app
     build:
       context: ./web-ui
       dockerfile: Dockerfile
-    volumes:
-      - ./web-ui:/app
-      - web-ui-modules:/app/node_modules
     ports:
-      - 3000:3000
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+      - 3001:3000
     depends_on:
       - web-api
     networks:
       - app_net
 
   web-api:
-    image: node:14
+    image: node:13.12.0
     container_name: web-api
     working_dir: /app
     volumes: 
